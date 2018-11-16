@@ -6,9 +6,8 @@ grammar xpln;
  * TODO: Extend for XPLN.
  */
 
-assign :
-    | ID ':=' expr
-    ;
+assign : ID ':=' expr
+       ;
 
 /*
  * According to "The Definitive ANTLR 4 Reference", section 5.4,
@@ -18,23 +17,20 @@ assign :
  * I have taken the classical approach, instead of letting ANTLR resolve the
  * ambiguity. Evaluate both approaches and decide on which to favor.
  */
-expr :
-    | expr SUB term
-    | expr ADD term
-    | term
-    ;
+expr : expr SUB term     # ExprSub
+     | expr ADD term     # ExprAdd
+     | term              # ExprTerm
+     ;
 
-term :
-    | term MUL factor
-    | term DIV factor
-    | factor
-    ;
+term : term MUL factor   # TermMul
+     | term DIV factor   # TermDiv
+     | factor            # TermFactor
+     ;
 
-factor :
-    | ID
-    | NUM
-    | '(' expr ')'
-    ;
+factor : ID                # FactorId
+       | NUM               # FactorNum
+       | '(' expr ')'      # FactorParens
+       ;
 
 
 /*
