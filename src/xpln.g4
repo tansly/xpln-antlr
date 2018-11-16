@@ -6,8 +6,66 @@ grammar xpln;
  * TODO: Extend for XPLN.
  */
 
+start : stmt ';' (entry ';')*
+      ;
+
+entry : stmt
+      | def
+      ;
+
+stmts : (stmt ';')+
+      ;
+
+stmt : assign
+     | ifcond
+     | wh
+     | ret
+     | io
+     ;
+
 assign : ID ':=' expr
        ;
+
+/*
+ * TODO: When to name the tokens?
+ */
+ifcond : 'if' cond stmts 'endi'
+       | 'if' cond stmts 'else' stmts 'endi'
+       ;
+
+wh : 'while' cond stmts 'endw'
+   ;
+
+ret : 'return' expr
+    ;
+
+io : 'input' ID
+   | 'output' ID
+   ;
+
+/*
+ * TODO: Reconsider plist and args rules.
+ * Rewrite args as non-recursive?
+ * Remove plist altogether and directly use ( args )?
+ * What are the trade-offs?
+ */
+def : 'fun' ID plist stmts 'endf'
+    ;
+
+plist : '(' args ')'
+      ;
+
+args : expr ',' args
+     | /* epsilon */
+     ;
+
+fcall : ID plist
+      ;
+
+cond : expr BOP expr
+     | cond LOP cond
+     | UOP cond
+     ;
 
 /*
  * According to "The Definitive ANTLR 4 Reference", section 5.4,
@@ -15,7 +73,8 @@ assign : ID ':=' expr
  * implicitly allowing us to specify operator precedence.
  *
  * I have taken the classical approach, instead of letting ANTLR resolve the
- * ambiguity. Evaluate both approaches and decide on which to favor.
+ * ambiguity. TODO: Evaluate both approaches and decide on which to favor.
+ * TODO: Separate operators in separate alternatives or merge them?
  */
 expr : expr SUB term     # ExprSub
      | expr ADD term     # ExprAdd
@@ -36,10 +95,34 @@ factor : ID                # FactorId
 /*
  * Part for the lexer.
  */
+
 ID : [A-Za-z]([A-Za-z]|[0-9])* ;
 NUM : [0-9]+ ; // TODO: Floating point literals
 WHITESPACE : [ \t\r\n]+ -> skip ;
+
+/*
+ * Arithmetic operators.
+ */
 ADD : '+' ;
 SUB : '-' ;
 MUL : '*' ;
 DIV : '/' ;
+
+/*
+ * Relational operators.
+ */
+LT : '<' ;
+LTE : '<=' ;
+EQ : '==' ;
+GT : '>' ;
+GTE : '>=' ;
+BOP : (LT|LTE|EQ|GT|GTE) ;
+
+/*
+ * Logical operators.
+ */
+AND : 'and' ;
+OR : 'or' ;
+LOP : (AND|OR) ;
+
+UOP : '!' ; // not
