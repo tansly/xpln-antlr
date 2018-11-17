@@ -27,7 +27,7 @@ assign : ID ':=' expr
        ;
 
 /*
- * TODO: When to name the tokens?
+ * TODO: Name the tokens?
  */
 ifcond : 'if' cond stmts 'endi'
        | 'if' cond stmts 'else' stmts 'endi'

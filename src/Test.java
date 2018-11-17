@@ -14,6 +14,8 @@ public class Test {
         System.out.println(tree.toStringTree(parser));
 
         CheckReturnVisitor checker = new CheckReturnVisitor();
-        System.out.println(checker.visit(tree));
+        if (!checker.visit(tree)) {
+            System.out.println("Not all functions contain a return statement.");
+        }
     }
 }
