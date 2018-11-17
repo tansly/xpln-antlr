@@ -56,7 +56,8 @@ plist : '(' args ')'
       ;
 
 args : expr ',' args
-     | /* epsilon */
+     | expr
+     | /* epsilon (no arguments) */
      ;
 
 fcall : ID plist
