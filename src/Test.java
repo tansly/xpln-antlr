@@ -10,12 +10,10 @@ public class Test {
         xplnLexer lexer = new xplnLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         xplnParser parser = new xplnParser(tokens);
-        ParseTree tree = parser.expr();
+        ParseTree tree = parser.start();
         System.out.println(tree.toStringTree(parser));
 
-        /*
-        EvalVisitor eval = new EvalVisitor();
-        System.out.println(eval.visit(tree));
-        */
+        CheckReturnVisitor checker = new CheckReturnVisitor();
+        System.out.println(checker.visit(tree));
     }
 }
