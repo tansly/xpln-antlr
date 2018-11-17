@@ -62,8 +62,8 @@ args : expr ',' args
 fcall : ID plist
       ;
 
-cond : expr BOP expr
-     | cond LOP cond
+cond : expr (LT|LTE|EQ|GT|GTE) expr
+     | cond (AND|OR) cond
      | UOP cond
      ;
 
@@ -116,13 +116,11 @@ LTE : '<=' ;
 EQ : '==' ;
 GT : '>' ;
 GTE : '>=' ;
-BOP : (LT|LTE|EQ|GT|GTE) ;
 
 /*
  * Logical operators.
  */
 AND : 'and' ;
 OR : 'or' ;
-LOP : (AND|OR) ;
 
 UOP : '!' ; // not
