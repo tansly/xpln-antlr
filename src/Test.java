@@ -13,9 +13,10 @@ public class Test {
         ParseTree tree = parser.start();
         System.out.println(tree.toStringTree(parser));
 
+        System.out.println();
         CheckReturnVisitor checker = new CheckReturnVisitor();
-        if (!checker.visit(tree)) {
-            System.out.println("Not all functions contain a return statement.");
+        if (checker.visit(tree)) {
+            System.out.println("All functions contain at least one return statement.");
         }
     }
 }
