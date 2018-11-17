@@ -90,6 +90,7 @@ term : term MUL factor   # TermMul
 factor : ID                # FactorId
        | NUM               # FactorNum
        | '(' expr ')'      # FactorParens
+       | fcall             # FactorFcall // XXX: Is this the right place?
        ;
 
 
