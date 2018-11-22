@@ -6,7 +6,7 @@ grammar xpln;
  * TODO: Extend for XPLN.
  */
 
-start : stmt ';' (entry ';')*
+start : stmt ';' (entry ';')* EOF
       ;
 
 entry : stmt
