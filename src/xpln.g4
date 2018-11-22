@@ -98,8 +98,11 @@ factor : ID                # FactorId
  * Part for the lexer.
  */
 
+NUM : [0-9]+
+    | [0-9]+ '.' [0-9]*
+    | '.' [0-9]+
+    ;
 ID : [A-Za-z]([A-Za-z]|[0-9])* ;
-NUM : [0-9]+ ; // TODO: Floating point literals
 WHITESPACE : [ \t\r\n]+ -> skip ;
 
 /*
