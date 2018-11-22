@@ -9,6 +9,10 @@ fun f(x, y)
     endw;
     return r;
 
+fun g(x)
+    return x;
+endf;
+
 c := f(a + 1, b / 4);
 output c;
 return c;
