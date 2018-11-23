@@ -2,8 +2,6 @@ grammar xpln;
 
 /*
  * Part for the parser.
- * Currently covers the XP language (not XPLN).
- * TODO: Extend for XPLN.
  */
 
 start : stmt ';' (entry ';')* EOF
@@ -26,9 +24,6 @@ stmt : assign
 assign : ID ':=' expr
        ;
 
-/*
- * TODO: Name the tokens?
- */
 ifcond : 'if' cond stmts 'endi'
        | 'if' cond stmts 'else' stmts 'endi'
        ;
@@ -43,12 +38,6 @@ io : 'input' ID
    | 'output' ID
    ;
 
-/*
- * TODO: Reconsider plist and args rules.
- * Rewrite args as non-recursive?
- * Remove plist altogether and directly use ( args )?
- * What are the trade-offs?
- */
 def : 'fun' ID plist stmts 'endf'
     ;
 
@@ -74,8 +63,7 @@ cond : expr (LT|LTE|EQ|GT|GTE) expr
  * implicitly allowing us to specify operator precedence.
  *
  * I have taken the classical approach, instead of letting ANTLR resolve the
- * ambiguity. TODO: Evaluate both approaches and decide on which to favor.
- * TODO: Separate operators in separate alternatives or merge them?
+ * ambiguity.
  */
 expr : expr SUB term     # ExprSub
      | expr ADD term     # ExprAdd
@@ -90,7 +78,7 @@ term : term MUL factor   # TermMul
 factor : ID                # FactorId
        | NUM               # FactorNum
        | '(' expr ')'      # FactorParens
-       | fcall             # FactorFcall // XXX: Is this the right place?
+       | fcall             # FactorFcall
        ;
 
 
