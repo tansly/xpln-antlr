@@ -24,21 +24,21 @@ stmt : assign
 assign : ID ':=' expr
        ;
 
-ifcond : 'if' cond stmts 'endi'
-       | 'if' cond stmts 'else' stmts 'endi'
+ifcond : K_IF cond stmts K_ENDIF
+       | K_IF cond stmts K_ELSE stmts K_ENDIF
        ;
 
-wh : 'while' cond stmts 'endw'
+wh : K_WHILE cond stmts K_ENDWHILE
    ;
 
-ret : 'return' expr
+ret : K_RETURN expr
     ;
 
-io : 'input' ID
-   | 'output' ID
+io : K_INPUT ID
+   | K_OUTPUT ID
    ;
 
-def : 'fun' ID plist stmts 'endf'
+def : K_FUN ID plist stmts K_ENDFUN
     ;
 
 plist : '(' args ')'
@@ -86,12 +86,10 @@ factor : ID                # FactorId
  * Part for the lexer.
  */
 
-NUM : [0-9]+
-    | [0-9]+ '.' [0-9]*
-    | '.' [0-9]+
+NUM : DIGIT+
+    | DIGIT+ '.' DIGIT*
+    | '.' DIGIT+
     ;
-ID : [A-Za-z]([A-Za-z]|[0-9])* ;
-WHITESPACE : [ \t\r\n]+ -> skip ;
 
 /*
  * Arithmetic operators.
@@ -113,7 +111,53 @@ GTE : '>=' ;
 /*
  * Logical operators.
  */
-AND : 'and' ;
-OR : 'or' ;
-
+AND : A N D ;
+OR : O R ;
 UOP : '!' ; // not
+
+/*
+ * Misc keywords.
+ */
+K_IF : I F ;
+K_ELSE : E L S E ;
+K_ENDIF : E N D I ;
+K_WHILE : W H I L E ;
+K_ENDWHILE : E N D W ;
+K_FUN : F U N ;
+K_ENDFUN : E N D F ;
+K_RETURN : R E T U R N ;
+K_INPUT : I N P U T ;
+K_OUTPUT : O U T P U T ;
+
+ID : [A-Za-z]([A-Za-z0-9])* ;
+
+WHITESPACE : [ \t\r\n]+ -> skip ;
+
+fragment DIGIT : [0-9] ;
+
+fragment A : [aA] ;
+fragment B : [bB] ;
+fragment C : [cC] ;
+fragment D : [dD] ;
+fragment E : [eE] ;
+fragment F : [fF] ;
+fragment G : [gG] ;
+fragment H : [hH] ;
+fragment I : [iI] ;
+fragment J : [jJ] ;
+fragment K : [kK] ;
+fragment L : [lL] ;
+fragment M : [mM] ;
+fragment N : [nN] ;
+fragment O : [oO] ;
+fragment P : [pP] ;
+fragment Q : [qQ] ;
+fragment R : [rR] ;
+fragment S : [sS] ;
+fragment T : [tT] ;
+fragment U : [uU] ;
+fragment V : [vV] ;
+fragment W : [wW] ;
+fragment X : [xX] ;
+fragment Y : [yY] ;
+fragment Z : [zZ] ;
