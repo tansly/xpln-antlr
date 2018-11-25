@@ -38,19 +38,27 @@ io : K_INPUT ID
    | K_OUTPUT ID
    ;
 
-def : K_FUN ID plist stmts K_ENDFUN
+def : K_FUN ID fplist stmts K_ENDFUN
     ;
 
-plist : '(' args ')'
+fplist : '(' fargs ')'
       ;
 
-args : expr ',' args
+fargs : ID ',' fargs
+      | ID
+      | /* epsilon (no arguments) */
+      ;
+
+fcall : ID aplist
+      ;
+
+aplist : '(' aargs ')'
+      ;
+
+aargs : expr ',' aargs
      | expr
      | /* epsilon (no arguments) */
      ;
-
-fcall : ID plist
-      ;
 
 cond : expr (LT|LTE|EQ|GT|GTE) expr
      | cond (AND|OR) cond
