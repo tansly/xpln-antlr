@@ -41,8 +41,11 @@ io : K_INPUT ID
 def : K_FUN ID fplist stmts K_ENDFUN
     ;
 
+/*
+ * [f]ormal [p]arameter [list] must consist of identifiers.
+ */
 fplist : '(' fargs ')'
-      ;
+       ;
 
 fargs : ID ',' fargs
       | ID
@@ -52,13 +55,16 @@ fargs : ID ',' fargs
 fcall : ID aplist
       ;
 
+/*
+ * Actual parameter list may consist of any kind of expressions.
+ */
 aplist : '(' aargs ')'
-      ;
+       ;
 
 aargs : expr ',' aargs
-     | expr
-     | /* epsilon (no arguments) */
-     ;
+      | expr
+      | /* epsilon (no arguments) */
+      ;
 
 cond : expr (LT|LTE|EQ|GT|GTE) expr
      | cond (AND|OR) cond
